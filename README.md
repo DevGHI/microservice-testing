@@ -28,22 +28,28 @@ Installation
 To install this code, follow these steps:
 
 1.Clone the repository to your local machine using Git:
+---
 git clone git@github.com:DevGHI/microservice-testing.git
 
 2.Navigate to the project directory:
+---
 cd microservice-testing
 
 3.Run the code:
+---
 make up
 
 4.Run Migration & Seeder
+---
 make migrate-refresh
 
 5.complete, test users & post api  
+---
 http://localhost/users
 http://localhost/posts
 
 6.Stop
+---
 make down (this commend will stop all services and delete stopped docker containers in your machine)
 
 
@@ -52,10 +58,13 @@ Testing
 To run the tests for this code, follow these steps:
 
 1.Navigate to the project directory if you are not already there:
+---
 cd microservice-testing
 
 2.Run the tests:
+---
 make test
 
 3.Reset Database to default
+---
 make migrate-refresh
