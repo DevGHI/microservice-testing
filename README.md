@@ -16,7 +16,9 @@ Prerequisites
 Before running this code, you need to have the following installed on your system:
 
 Git
+
 docker & docker-compose
+
 Makefiles ( build automation tool )
 
 
