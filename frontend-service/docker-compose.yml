@@ -1,0 +1,17 @@
+version: '3'
+
+services:
+  website:
+    container_name: partner
+    env_file: ./.env
+    build:
+        dockerfile: Dockerfile
+        context: ./
+        args: 
+        - API_SERVER=$REACT_APP_DOMAIN
+    volumes:
+      - '.:/app'
+      - '/app/node_modules'
+    ports:
+        - "3333:80"
+

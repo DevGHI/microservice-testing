@@ -10,9 +10,13 @@ export default class UserService{
 
     try {
       const token = await auth.use("api").attempt(email, password);
+      const user = await User.query().where("email", email).first();
       return ResponseHelper.success({
         response,
-        data: token.toJSON(),
+        data:{
+          user,
+          token
+        },
         message: "Login success",
       });
     } catch {

@@ -39,3 +39,16 @@ services:
       # Uncomment the below line if you developing on MacOS
       - /home/node/app/node_modules
     command: dumb-init node ace serve --watch --node-args="--inspect=0.0.0.0"
+#   frontend-service:
+#     container_name: $CONTAINER_NAME-frontend-service
+#     env_file: ./.env
+#     build:
+#         dockerfile: Dockerfile
+#         context: ./frontend-service
+#         args: 
+#         - API_SERVER=$API_SERVER
+#         - SOCKET_SERVER=$API_SERVER
+#     volumes:
+#         - ./frontend-service:/app
+#     ports:
+#         - "$FRONTEND_OUTER_PORT:80"
