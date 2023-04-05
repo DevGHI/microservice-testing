@@ -2,8 +2,7 @@ import ResponseHelper from "App/Helper/ResponseHelper";
 import Friend from "App/Models/Friend";
 import User from "App/Models/User";
 
-
-export default class UserService{
+export default class UserService {
   public async login({ auth, request, response }) {
     const email = request.input("email");
     const password = request.input("password");
@@ -13,9 +12,9 @@ export default class UserService{
       const user = await User.query().where("email", email).first();
       return ResponseHelper.success({
         response,
-        data:{
+        data: {
           user,
-          token
+          token,
         },
         message: "Login success",
       });
@@ -66,6 +65,7 @@ export default class UserService{
   public async addFriend({ request, response }) {
     const sender_user_id = request.input("sender_user_id");
     const receiver_user_id = request.input("receiver_user_id");
+    console.log(sender_user_id, receiver_user_id);
 
     try {
       let res = await Friend.create({
@@ -88,19 +88,18 @@ export default class UserService{
   }
 
   public async acceptFriend({ request, response }) {
-    const friend_id = request.input("friend_id");
+    const friend_id = request.input("relation_id");
 
     try {
-      let res = await Friend.query().where("id", friend_id).update({
+       await Friend.query().where("id", friend_id).update({
         status: "accepted",
       });
       return ResponseHelper.success({
         response,
-        data: res,
+        data: null,
         message: "Accept friend success",
       });
-    }
-    catch (error) {
+    } catch (error) {
       return ResponseHelper.error({
         response,
         message: "Accept friend failed",
@@ -110,6 +109,40 @@ export default class UserService{
     }
   }
 
+  public async friendLists({ request, response }) {
+    const user_id = request.input("user_id");
+
+    try {
+      let res = await User.query()
+        .where("id", user_id)
+        .preload("send_friends", (query) => {
+          query.where("status", "accepted");
+          query.preload("receiver");
+        })
+        .preload("receive_friends", (query) => {
+          query.where("status", "accepted");
+          query.preload("sender");
+        });
+
+      // let res = await Friend.query()
+      //   .where("sender_user_id", user_id)
+      //   .orWhere("receiver_user_id", user_id)
+      //   .where("status", "accepted")
+      //   .preload("sender")
+      //   .preload("receiver");
+
+      return ResponseHelper.success({
+        response,
+        data: res,
+        message: "Get friend lists success",
+      });
+    } catch (error) {
+      return ResponseHelper.error({
+        response,
+        message: "Get friend lists failed",
+        code: 400,
+        error: error,
+      });
+    }
+  }
 }
-
-

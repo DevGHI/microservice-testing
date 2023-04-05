@@ -1,6 +1,7 @@
 import { DateTime } from 'luxon'
 import Hash from '@ioc:Adonis/Core/Hash'
-import { column, beforeSave, BaseModel } from '@ioc:Adonis/Lucid/Orm'
+import { column, beforeSave, BaseModel, HasMany, hasMany } from '@ioc:Adonis/Lucid/Orm'
+import Friend from './Friend'
 
 export default class User extends BaseModel {
   @column({ isPrimary: true })
@@ -8,7 +9,7 @@ export default class User extends BaseModel {
 
   @column()
   public name: string
-  
+
   @column()
   public email: string
 
@@ -23,6 +24,18 @@ export default class User extends BaseModel {
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   public updatedAt: DateTime
+
+  @hasMany(() => Friend, {
+    foreignKey: 'sender_user_id',
+    serializeAs: 'send_friends_relation',
+  })
+  public send_friends: HasMany<typeof Friend>
+
+  @hasMany(() => Friend, {
+    foreignKey: 'receiver_user_id',
+    serializeAs: 'receive_friend_relation',
+  })
+  public receive_friends: HasMany<typeof Friend>
 
   @beforeSave()
   public static async hashPassword (user: User) {

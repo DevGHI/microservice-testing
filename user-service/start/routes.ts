@@ -28,5 +28,6 @@ Route.get('/users', async () => {
 Route.post('users/login', 'UsersController.login')
 Route.post('users/register', 'UsersController.register')
 Route.post('users/add-friend', 'UsersController.addFriend')
+Route.get('users/friend-lists', 'UsersController.friendLists')
 Route.post('users/accept-friend', 'UsersController.acceptFriend')
 Route.get('users/profile/:id', 'UsersController.profile')

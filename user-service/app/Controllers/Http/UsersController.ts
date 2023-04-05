@@ -58,8 +58,8 @@ export default class UsersController {
     try {
       await request.validate({
         schema: schema.create({
-          sender_user_id: schema.string(),
-          receiver_user_id: schema.string(),
+          sender_user_id: schema.number(),
+          receiver_user_id: schema.number(),
         }),
       });
     } catch (error) {
@@ -78,7 +78,7 @@ export default class UsersController {
     try {
       await request.validate({
         schema: schema.create({
-          friend_id: schema.string(),
+          relation_id: schema.string(),
         }),
       });
     } catch (error) {
@@ -90,6 +90,24 @@ export default class UsersController {
     }
 
     return this.service.acceptFriend({ request, response });
+  }
+
+  public async friendLists({ request, response }) {
+    // validation
+    try {
+      await request.validate({
+        schema: schema.create({
+          user_id: schema.number(),
+        }),
+      });
+    } catch (error) {
+      return response.status(400).send({
+        status: "error",
+        message: "Validation failed",
+        errors: error.messages,
+      });
+    }
+    return this.service.friendLists({ request, response });
   }
 
   public async profile({ request, response }) {
