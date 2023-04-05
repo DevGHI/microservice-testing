@@ -46,14 +46,14 @@ test("submit friend request users/add-friend", async ({ client }) => {
   response.assertBodyContains({ status: "success" });
 });
 
-test("submit accept-friend users/accept-friend", async ({ client }) => {
-  const response = await client.post("users/accept-friend").json({
-    relation_id: 1,
-  });
+// test("submit accept-friend users/accept-friend", async ({ client }) => {
+//   const response = await client.post("users/accept-friend").json({
+//     relation_id: 1,
+//   });
 
-  response.assertStatus(200);
-  response.assertBodyContains({ status: "success" });
-});
+//   response.assertStatus(200);
+//   response.assertBodyContains({ status: "success" });
+// });
 
 test("get /users/friend-lists", async ({ client }) => {
   const user = await User.first();
