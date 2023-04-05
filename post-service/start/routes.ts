@@ -19,7 +19,6 @@
 */
 
 import Route from '@ioc:Adonis/Core/Route'
-import Rabbit from '@ioc:Adonis/Addons/Rabbit'
 // Route.get('/', async () => {
 //   return { hello: 'hello post service' }
 // })

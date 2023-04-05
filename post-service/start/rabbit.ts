@@ -10,7 +10,6 @@ import  MessageB  from '@ioc:MessageBroker';
 | boot.
 |
 */
-import Rabbit from '@ioc:Adonis/Addons/Rabbit'
 import Service from 'App/Services/Service';
 
 async function listen() {
@@ -22,11 +21,6 @@ async function listen() {
       channel: channel,
       service: service
     });
-  // await Rabbit.assertQueue('my_queue')
-
-  // await Rabbit.consumeFrom('my_queue', (message) => {
-  //   console.log(message.content)
-  // })
 }
 
 listen()

@@ -27,8 +27,7 @@
     "./providers/AppProvider",
     "./providers/RabbitProvider",
     "@adonisjs/core",
-    "@wahyubucil/adonis-prisma",
-    "adonis-rabbit"
+    "@wahyubucil/adonis-prisma"
   ],
   "aceProviders": [
     "@adonisjs/repl"
