@@ -10,7 +10,6 @@ technology in user-service : AdonisJS,MySQL
 (RabbitMQ,MongoDB,MySQL are used online service so that you don't need to configure in local)
 
 
-
 Prerequisites
 ---
 Before running this code, you need to have the following installed on your system:
