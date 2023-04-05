@@ -130,7 +130,11 @@ export default class UsersController {
     // });
 
 
-    return user;
+    return ResponseHelper.success({
+      response,
+      data: user,
+      message: "Get profile success",
+      });
   }
 
 

@@ -48,7 +48,6 @@ export default class PostsController {
       };
     }
 
-
     const posts = await prisma.post.findMany(prisma_obj);
 
     return ResponseHelper.success({
