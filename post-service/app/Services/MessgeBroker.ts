@@ -17,11 +17,6 @@ export default class MessageBroker {
     }
   }
 
-  public async start({service}){
-    const channel=await this.createChannel();
-    this.subscribeMessage({channel,service})
-  }
-
   public async publishMessage({ channel, binding_key, message }) {
     try {
       await channel.publish(
@@ -47,6 +42,7 @@ export default class MessageBroker {
     channel.consume(appQueue.queue, (data) => {
       console.log("receive data");
       console.log(data.content.toString());
+      service.subscribeEvent(data.content.toString())
       channel.ack(data);
     });
   }

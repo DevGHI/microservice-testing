@@ -1,9 +1,0 @@
-/build
-/node_modules
-package-lock.json
-/build
-.eslintcache
-.env
-
-# Local Netlify folder
-.netlify

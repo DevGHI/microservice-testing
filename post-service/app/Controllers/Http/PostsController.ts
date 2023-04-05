@@ -23,17 +23,33 @@ export default class PostsController {
         }),
       });
     } catch (error) {
-      return response.status(400).send({
-        status: "error",
+      return ResponseHelper.error({
+        response,
         message: "Validation failed",
-        errors: error.messages,
+        code: 400,
+        error: error.messages,
       });
     }
     return this.service.createPost({ request, response });
   }
 
-  public async index({ response }) {
-    const posts = await prisma.post.findMany({});
+  public async index({ request,response }) {
+    const user_id = request.input("user_id");
+    let prisma_obj = {};
+    if (user_id) {
+      prisma_obj = {
+        where: {
+          user: {
+            is: {
+              id: parseInt(user_id),
+            },
+          },
+        },
+      };
+    }
+
+
+    const posts = await prisma.post.findMany(prisma_obj);
 
     return ResponseHelper.success({
       response,
@@ -43,34 +59,48 @@ export default class PostsController {
     });
   }
 
-  public async show({ params, response }) {
+  public async submitComment({ request, response }) {
     try {
-      const user_id = params.user_id;
-      console.log(user_id);
-      const posts = await prisma.post.findMany({
-        where: {
-          user: {
-            is: {
-              id: parseInt(user_id),
-            },
-          },
-        },
-      });
-
-      return ResponseHelper.success({
-        response,
-        message: "Get all posts success.",
-        code: 200,
-        data: posts,
+      await request.validate({
+        schema: schema.create({
+          comment: schema.string(),
+          user: schema.object().members({
+            id: schema.number(),
+            name: schema.string(),
+            email: schema.string(),
+          }),
+        }),
       });
     } catch (error) {
       return ResponseHelper.error({
         response,
-        message: error.message,
+        message: "Validation failed",
         code: 400,
-        data: null,
+        error: error.messages,
       });
     }
+
+    return this.service.saveComment({ request, response });
+
+  }
+
+  public async show({ request, response }) {
+    const post_id = request.param("id");
+    const post = await prisma.post.findUnique({
+      where: {
+        id: post_id,
+      },
+      include: {
+        comments: true,
+      },
+    });
+
+    return ResponseHelper.success({
+      response,
+      message: "Get post success.",
+      code: 200,
+      data: post,
+    });
   }
 
   public async send() {

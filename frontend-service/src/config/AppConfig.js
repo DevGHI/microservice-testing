@@ -1,1 +1,0 @@
-export const PAYMENT_TYPES = ['Mobile Payment','Bank Account'];

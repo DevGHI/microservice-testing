@@ -14,17 +14,20 @@ type User {
   email  String
 }
 
+
+
 model Post {
   id       String    @id @default(auto()) @map("_id") @db.ObjectId
   title    String
   description     String
   user   User
-  // comments Comment[]
+  comments Comment[]
 }
 
-// model Comment {
-//   id       String    @id @default(auto()) @map("_id") @db.ObjectId
-//   text     String
-//   post     Post
-// }
-
+model Comment{
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  comment String
+  user User
+  post_id      String?      @db.ObjectId
+  post         Post? @relation(fields: [post_id], references: [id])
+}

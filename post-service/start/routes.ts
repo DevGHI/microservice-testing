@@ -27,7 +27,8 @@ import Rabbit from '@ioc:Adonis/Addons/Rabbit'
 
 Route.post('posts/create','PostsController.store')
 Route.get('posts','PostsController.index')
+Route.get('posts/:id','PostsController.show')
 
-Route.get('posts/user/:user_id','PostsController.show')
+Route.post('posts/comments/:post_id','PostsController.submitComment')
 
 Route.get('posts/send/', 'PostsController.send')

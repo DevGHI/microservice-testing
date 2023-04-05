@@ -12,6 +12,14 @@ export default class UsersController {
     this.service = new UserService();
   }
 
+  public async index({ response }) {
+    const users = await User.all();
+    return ResponseHelper.success({
+      response,
+      data: users,
+      message: "Get all users success",
+    });
+  }
   public async login({ auth, request, response }) {
     //validation
     try {
@@ -121,15 +129,37 @@ export default class UsersController {
     //   message: JSON.stringify(user),
     // });
 
-     const channel = await MessageB;
-
-      const broker = new MessageBroker();
-      await broker.publishMessage({
-        channel: channel,
-        binding_key: "post-key",  //other service key
-        message: JSON.stringify(user),
-      });
 
     return user;
   }
+
+
+  public async delete({ request, response }) {
+    const id = request.param("id");
+
+    const user = await User.findOrFail(id);
+    // return user;
+    await user?.delete();
+
+
+
+    const channel = await MessageB;
+    const broker = new MessageBroker();
+    await broker.publishMessage({
+      channel: channel,
+      binding_key: "post-key",  //other service key
+      message: JSON.stringify({
+        event: "user_deleted",
+        data: user,
+      }),
+    });
+
+    return ResponseHelper.success({
+      response,
+      data: user,
+      message: "Delete success",
+    });
+
+  }
+
 }

@@ -26,4 +26,53 @@ export default class PostService {
       });
     }
   }
+
+  public async saveComment({ request, response }) {
+    const post_id = request.param("post_id");
+    const comment = request.input("comment");
+    const user = request.input("user");
+
+    const data = await prisma.comment.create({
+      data: {
+        comment: comment,
+        post_id: post_id,
+        user: user,
+      },
+    });
+
+    return ResponseHelper.success({
+      response,
+      data,
+      message: "Comment added successfully.",
+      code: 200,
+    });
+  }
+
+  public async deletePostByUser(user_id) {
+    const posts = await prisma.post.findMany({
+      where: {
+        user: {
+          is: {
+            id: parseInt(user_id),
+          },
+        },
+      },
+    });
+
+    posts.forEach(async (post) => {
+      await prisma.comment.deleteMany({
+        where: {
+          post_id: post.id,
+        },
+      });
+
+      await prisma.post.delete({
+        where: {
+          id: post.id,
+        },
+      });
+    });
+  }
+
+ 
 }
