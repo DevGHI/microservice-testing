@@ -2,8 +2,13 @@ Microservice Testing
 -----
 This is a repository for Microservice Testing. This include two services which is "post-service" and "user-service".I used RabbitMQ to communicate each service and nginx server as api gateway and Japa for test case.
 
-technology in post-serive : AdonisJS,MongoDB,Prisma
-technology in user-service : AdonisJS,MySQL
+technology in post-serive
+----
+AdonisJS,MongoDB,Prisma
+
+technology in user-service
+-----
+AdonisJS,MySQL
 
 (RabbitMQ,MongoDB,MySQL are used online service so that you don't need to configure in local)
 
@@ -37,6 +42,9 @@ make migrate-refresh
 5.complete, test users & post api  
 http://localhost/users
 http://localhost/posts
+
+6.Stop
+make down (this commend will stop all services and delete stopped docker containers in your machine)
 
 
 Testing
