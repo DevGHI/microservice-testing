@@ -7,7 +7,7 @@ down:
 	docker-compose down && docker system prune --volumes -f
 
 restart:
-	make down && make up
+	make down && git pull && make up
 
 migrate:
 	docker exec $(CONTAINER_NAME)-post-service npx prisma db push && docker exec $(CONTAINER_NAME)-post-service node ace migration:run
