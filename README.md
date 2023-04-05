@@ -51,6 +51,9 @@ http://localhost/posts
 ---
 make down (this commend will stop all services and delete stopped docker containers in your machine)
 
+7.Run Latest Code
+---
+make restart
 
 Testing
 ----
